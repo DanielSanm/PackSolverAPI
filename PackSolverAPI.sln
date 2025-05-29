@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36121.58 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackSolverAPI", "PackSolverAPI.csproj", "{C385F475-ABA7-4825-9F62-9F953B8352F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C385F475-ABA7-4825-9F62-9F953B8352F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C385F475-ABA7-4825-9F62-9F953B8352F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C385F475-ABA7-4825-9F62-9F953B8352F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C385F475-ABA7-4825-9F62-9F953B8352F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7742D186-8F5A-4CD5-B91B-7F49ACC46C7B}
+	EndGlobalSection
+EndGlobal

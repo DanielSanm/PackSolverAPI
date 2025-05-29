@@ -1,0 +1,58 @@
+## Build folders
+bin/
+obj/
+out/
+Debug/
+Release/
+
+## Rider
+.idea/
+
+## Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.VC.db
+
+## .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.nuget.props
+*.nuget.targets
+
+## Publish folders
+publish/
+*.publish.xml
+
+## ASP.NET secrets
+secrets.json
+*.db
+*.sqlite
+
+## Logs
+*.log
+logs/
+
+## Dependency folders
+packages/
+node_modules/
+
+## Runtime-generated files
+*.generated.cs
+*.AssemblyInfo.cs
+
+## Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+## Others
+.env
+.env.*.local
+*.DS_Store
+Thumbs.db
