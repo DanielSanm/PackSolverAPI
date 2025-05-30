@@ -17,7 +17,9 @@ namespace PackSolverAPI.Migrations
                 columns: table => new
                 {
                     BoxId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Dimensions = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Height = table.Column<int>(type: "int", nullable: false),
+                    Width = table.Column<int>(type: "int", nullable: false),
+                    Length = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,7 +43,9 @@ namespace PackSolverAPI.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Dimensions = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Height = table.Column<int>(type: "int", nullable: false),
+                    Width = table.Column<int>(type: "int", nullable: false),
+                    Length = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,12 +109,12 @@ namespace PackSolverAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "boxes",
-                columns: new[] { "BoxId", "Dimensions" },
+                columns: new[] { "BoxId", "Height", "Length", "Width" },
                 values: new object[,]
                 {
-                    { "CAIXA_1", "30x40x80" },
-                    { "CAIXA_2", "80x50x40" },
-                    { "CAIXA_3", "50x80x60" }
+                    { "CAIXA_1", 30, 80, 40 },
+                    { "CAIXA_2", 80, 40, 50 },
+                    { "CAIXA_3", 50, 60, 80 }
                 });
 
             migrationBuilder.CreateIndex(

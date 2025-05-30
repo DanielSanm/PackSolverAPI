@@ -11,7 +11,7 @@ using PackSolverAPI.DbContexts;
 namespace PackSolverAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250530004009_Initial")]
+    [Migration("20250530135213_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -44,9 +44,14 @@ namespace PackSolverAPI.Migrations
                     b.Property<string>("BoxId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Dimensions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Length")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
 
                     b.HasKey("BoxId");
 
@@ -56,17 +61,23 @@ namespace PackSolverAPI.Migrations
                         new
                         {
                             BoxId = "CAIXA_1",
-                            Dimensions = "30x40x80"
+                            Height = 30,
+                            Length = 80,
+                            Width = 40
                         },
                         new
                         {
                             BoxId = "CAIXA_2",
-                            Dimensions = "80x50x40"
+                            Height = 80,
+                            Length = 40,
+                            Width = 50
                         },
                         new
                         {
                             BoxId = "CAIXA_3",
-                            Dimensions = "50x80x60"
+                            Height = 50,
+                            Length = 60,
+                            Width = 80
                         });
                 });
 
@@ -88,9 +99,14 @@ namespace PackSolverAPI.Migrations
                     b.Property<string>("ProductId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Dimensions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Length")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
 
                     b.HasKey("ProductId");
 

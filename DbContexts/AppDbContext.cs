@@ -21,9 +21,9 @@ namespace PackSolverAPI.DbContexts
             modelBuilder.Entity<ProductBox>().HasKey(opb => new {opb.ProductId, opb.BoxId});
 
             modelBuilder.Entity<Box>().HasData(
-                new Box { BoxId = "CAIXA_1", Dimensions = "30x40x80" },
-                new Box { BoxId = "CAIXA_2", Dimensions = "80x50x40" },
-                new Box { BoxId = "CAIXA_3", Dimensions = "50x80x60" }
+                new Box { BoxId = "CAIXA_1", Height = 30, Width = 40, Length = 80 },
+                new Box { BoxId = "CAIXA_2", Height = 80, Width = 50, Length = 40 },
+                new Box { BoxId = "CAIXA_3", Height = 50, Width = 80, Length = 60 }
             );
         }
     }
