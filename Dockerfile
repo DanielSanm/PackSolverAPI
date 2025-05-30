@@ -14,7 +14,7 @@ RUN dotnet restore "./PackSolverAPI.csproj"
 COPY . .
 WORKDIR "/src/."
 RUN dotnet build "./PackSolverAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
+CMD dotnet ef database update
 # publish
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release

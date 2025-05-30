@@ -1,7 +1,6 @@
 services:
   packsolver_api:
     image: packsolverapi:dev
-    # container_name: PackSolverAPI
     environment:
       - ASPNETCORE_HTTP_PORTS=8081
     build:
