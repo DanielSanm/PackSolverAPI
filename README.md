@@ -73,7 +73,6 @@ Requisição
       "length": 30
     }
   ]
-}
 ```
 
 Resposta:
