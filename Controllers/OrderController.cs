@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using PackSolverAPI.DbContexts;
+using PackSolverAPI.DTO;
 using PackSolverAPI.Models;
 using PackSolverAPI.Services;
 using System;
@@ -18,173 +19,91 @@ using System.Threading.Tasks;
 namespace PackSolverAPI.Controllers
 {
     [ApiController]
-    [Route("api/order")]
+    [Route("api/orders")]
     public class OrderController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly PackService _packService;
 
-        public OrderController(AppDbContext context, PackService packService)
+        public OrderController(AppDbContext context)
         {
             _context = context;
-            _packService = packService;
-        }
-
-        public class ItemRequest
-        {
-            public int ID { get; set; }
-            public decimal Dim1 { get; set; }
-            public decimal Dim2 { get; set; }
-            public decimal Dim3 { get; set; }
-            public int Quantity { get; set; }
         }
 
         [HttpPost("pack")]
-        public IActionResult pack([FromBody] Order order)
+        public async Task<IActionResult> pack([FromBody] OrderPackingRequest request)
         {
-            var items = order.Products
-                .Select((p, index) => new Item(index, p.Height, p.Width, p.Length, p.Quantity))
+            //var order = await _context.orders.FindAsync(request.OrderId);
+            //if (order == null)
+            //    return NotFound();
+
+            var items = request.Products
+                .Select((p, index) => new Item(index, p.Height, p.Width, p.Length, 1))
                 .ToList();
-            var result = _packService.Pack(items);
+            var boxes = await _context.boxes.ToListAsync();
+            var result = new PackService().Pack(items, boxes);
 
             return Ok(result);
         }
 
-        /*
-        // GET: Orders
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Order>>> GetAll()
         {
-            return View(await _context.orders.ToListAsync());
+            return await _context.orders.ToListAsync();
         }
 
-        // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Order>> Get(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.orders
-                .FirstOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
-        }
-
-        // GET: Orders/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Orders/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
-        }
-
-        // GET: Orders/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var order = await _context.orders.FindAsync(id);
             if (order == null)
-            {
                 return NotFound();
-            }
-            return View(order);
+
+            return order;
         }
 
-        // POST: Orders/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderId")] Order order)
+        public async Task<ActionResult<Order>> Post(Order order)
+        {
+            _context.orders.Add(order);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(Get), new { id = order.OrderId }, order);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, Order order)
         {
             if (id != order.OrderId)
+                return BadRequest();
+
+            _context.Entry(order).State = EntityState.Modified;
+
+            try
             {
-                return NotFound();
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.orders.Any(o => o.OrderId == id))
+                    return NotFound();
+
+                throw;
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.OrderId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
+            return NoContent();
         }
 
-        // GET: Orders/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.orders
-                .FirstOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
-        }
-
-        // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
             var order = await _context.orders.FindAsync(id);
-            if (order != null)
-            {
-                _context.orders.Remove(order);
-            }
+            if (order == null)
+                return NotFound();
 
+            _context.orders.Remove(order);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return NoContent();
         }
-        
-        private bool OrderExists(int id)
-        {
-            return _context.orders.Any(e => e.OrderId == id);
-        }
-        */
     }
 }

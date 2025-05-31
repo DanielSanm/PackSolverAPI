@@ -2,21 +2,22 @@
 using CromulentBisgetti.ContainerPacking;
 using CromulentBisgetti.ContainerPacking.Algorithms;
 using CromulentBisgetti.ContainerPacking.Entities;
+using Microsoft.EntityFrameworkCore;
+using PackSolverAPI.DbContexts;
+using PackSolverAPI.Models;
 
 namespace PackSolverAPI.Services
 {
     public class PackService
     {
-        public List<string> Pack(List<Item> items)
+        public List<Box> Pack(List<Item> items, List<Box> boxes)
         {
-            List<string> selectedBoxes = null;
+            List<Box> selectedBoxes = new List<Box>();
             var algorithm = new List<int> { (int)AlgorithmType.EB_AFIT };
 
-            var containers = new List<Container> {
-                new Container(1, 30, 40, 80),
-                new Container(2, 80, 50, 40),
-                new Container(3, 50, 80, 60)
-            };
+            var containers = boxes
+                .Select((b, index) => new Container(index, b.Height, b.Width, b.Length))
+                .ToList();
 
             while (true)
             {
@@ -32,7 +33,7 @@ namespace PackSolverAPI.Services
                     return selectedBoxes;
                 }
 
-                selectedBoxes.Add(bestContainer.ContainerID.ToString());
+                selectedBoxes.Add(boxes[bestContainer.ContainerID]);
 
                 if (bestContainer.AlgorithmPackingResults.FirstOrDefault().IsCompletePack)
                 {

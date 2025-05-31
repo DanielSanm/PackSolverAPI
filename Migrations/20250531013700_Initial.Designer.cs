@@ -11,7 +11,7 @@ using PackSolverAPI.DbContexts;
 namespace PackSolverAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250530235724_Initial")]
+    [Migration("20250531013700_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -103,9 +103,6 @@ namespace PackSolverAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Length")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<int>("Width")
