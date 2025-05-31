@@ -4,6 +4,6 @@
     {
         public int OrderId { get; set; }
         public ICollection<Product> Products { get; set; }
-        public ICollection<ProductBox> ProductBoxes { get; set; }
+        public ICollection<ProductBox>? ProductBoxes { get; set; }
     }
 }

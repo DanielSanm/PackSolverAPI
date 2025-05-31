@@ -20,6 +20,16 @@ namespace PackSolverAPI.DbContexts
 
             modelBuilder.Entity<ProductBox>().HasKey(opb => new {opb.ProductId, opb.BoxId});
 
+            modelBuilder.Entity<ProductBox>()
+                .HasOne(pb => pb.Product)
+                .WithMany(p => p.productBoxes)
+                .HasForeignKey(pb => pb.ProductId);
+
+            modelBuilder.Entity<ProductBox>()
+                .HasOne(pb => pb.Box)
+                .WithMany(b => b.productBoxes)
+                .HasForeignKey(pb => pb.BoxId);
+
             modelBuilder.Entity<Box>().HasData(
                 new Box { BoxId = "CAIXA_1", Height = 30, Width = 40, Length = 80 },
                 new Box { BoxId = "CAIXA_2", Height = 80, Width = 50, Length = 40 },

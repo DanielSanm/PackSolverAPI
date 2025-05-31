@@ -11,7 +11,7 @@ using PackSolverAPI.DbContexts;
 namespace PackSolverAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250530135213_Initial")]
+    [Migration("20250530235724_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -105,6 +105,9 @@ namespace PackSolverAPI.Migrations
                     b.Property<int>("Length")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<int>("Width")
                         .HasColumnType("int");
 
@@ -151,7 +154,7 @@ namespace PackSolverAPI.Migrations
             modelBuilder.Entity("PackSolverAPI.Models.ProductBox", b =>
                 {
                     b.HasOne("PackSolverAPI.Models.Box", "Box")
-                        .WithMany()
+                        .WithMany("productBoxes")
                         .HasForeignKey("BoxId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -163,7 +166,7 @@ namespace PackSolverAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("PackSolverAPI.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("productBoxes")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -175,9 +178,19 @@ namespace PackSolverAPI.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("PackSolverAPI.Models.Box", b =>
+                {
+                    b.Navigation("productBoxes");
+                });
+
             modelBuilder.Entity("PackSolverAPI.Models.Order", b =>
                 {
                     b.Navigation("ProductBoxes");
+                });
+
+            modelBuilder.Entity("PackSolverAPI.Models.Product", b =>
+                {
+                    b.Navigation("productBoxes");
                 });
 #pragma warning restore 612, 618
         }
